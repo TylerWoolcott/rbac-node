@@ -24,6 +24,8 @@ const registerUser = (req, res) => {
 
 const loginUser = (req, res) => {
   const { username, password } = req.body
+  console.log("🚀 ~ loginUser ~ password:", password)
+  console.log("🚀 ~ loginUser ~ username:", username)
   if (!username) {
     res.json({ success: false, message: 'User name not given' })
   }
@@ -32,21 +34,27 @@ const loginUser = (req, res) => {
   }
 
   //first param is strategy, where to store use creds if auth'd, second params is callback func
-
-  passport.authenticate('local', (err, user, info) => {
-    console.log('hererrr')
-    if (err) {
-      console.error(err)
-      return res.json({ success: false, messsage: err })
-    } else {
-      if (!user) {
-        res.json({ success: false, message: 'Username or password is incorrect' })
+  try {
+    passport.authenticate('local', (err, user, info) => {
+      console.log("🚀 ~ passport.authenticate ~ err:", err)
+      console.log("🚀 ~ passport.authenticate ~ user:", user)
+      if (err) {
+        console.error(err)
+        return res.json({ success: false, messsage: err })
       } else {
-        const token = jwt.sign({ userId: user._id, role: user.role }, 'tyler_is_awesome', { expiresIn: '24h' })
-        return res.json({ success: true, message: 'Auth successful', token })
+        if (!user) {
+          res.json({ success: false, message: 'Username or password is incorrect' })
+        } else {
+          const token = jwt.sign({ userId: user._id, role: user.role }, 'tyler_is_awesome', { expiresIn: '24h' })
+          return res.json({ success: true, message: 'Auth successful', token })
+        }
       }
-    }
-  })(req, res)
+    })(req, res)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error, message: error.message })
+  }
+
 
   //auth user w username and pass from mongodb, if exists in db, if true, create token return that token to user, else give message username or password incorrect
 
