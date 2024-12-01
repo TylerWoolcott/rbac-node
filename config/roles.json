@@ -23,6 +23,12 @@
         "create_record",
         "read_record"
       ]
+    },
+    {
+      "name": "user",
+      "permissions": [
+        "read_record"
+      ]
     }
   ]
 }

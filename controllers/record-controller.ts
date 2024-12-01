@@ -18,6 +18,7 @@ const createRecord = async (req, res) => {
       description
     })
     await record.save()
+    res.status(200).json(record)
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
@@ -30,7 +31,7 @@ const updateRecord = async (req, res) => {
     const { title, description } = req.body;
     const record = await Record.findByIdAndUpdate(id, { title, description });
     if (!record) throw new Error('Record not found');
-    res.json(record);
+    res.json({ title, description });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -43,7 +44,7 @@ const deleteRecord = async (req, res) => {
     const record = await Record.findByIdAndDelete(id);
     if
       (!record) throw new Error('Record not found');
-    res.json(record);
+    res.json(`Record with id ${id} is deleted successfully`);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

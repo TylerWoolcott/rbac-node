@@ -21,3 +21,4 @@ exports.checkPermission = (permission: string) => {
 //what does middleware return? a function
 //what happens if milions of req come simulatamelusly to server that req is being held up, what happens? not using build in methods, so dont need error first architecture
 //what is middleware, its just a func that can take parameters of its own and can also take the params of the node js lifecycle
+//next() calls next middleware if there is any
