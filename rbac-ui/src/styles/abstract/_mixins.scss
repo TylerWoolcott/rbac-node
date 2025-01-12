@@ -1,0 +1,95 @@
+@use 'sass:map';
+// @use 'variables' as static;
+@import './variables.scss';
+//reusable piece of code in css
+
+@mixin flex($direction: row, $justify: center, $align: stretch) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin responsive($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media(min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+
+  @else {
+    @warn 'unknown breakpoint';
+  }
+}
+
+@mixin button-variant($bg-color, $text-color: $white) {
+  background-color: $bg-color;
+  color: $text-color;
+
+  &:hover:not(:disabled) {
+    background-color: darken($bg-color, 7%);
+  }
+
+  &:active:not(:disabled) {
+    background-color: darken($bg-color, 10%);
+  }
+
+  &:focus:visible {
+    box-shadow: 0 0 0 2px $white, 0 0 0 4px $bg-color;
+  }
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: map-get($font-sizes, base);
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+@mixin input-base {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  font-size: map-get($font-sizes, base);
+  line-height: 1.5;
+  color: $gray-900;
+  background-color: $white;
+  border: 1px solid $gray-300;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+
+  &::placeholder {
+    color: $gray-400;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+  }
+
+  &:disabled {
+    background-color: $gray-100;
+    cursor: not-allowed;
+  }
+}
+
+@mixin input-error {
+  border-color: $error-color;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba($error-color, 0.1);
+  }
+}

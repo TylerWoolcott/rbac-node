@@ -46,7 +46,7 @@ const loginUser = (req, res) => {
           res.json({ success: false, message: 'Username or password is incorrect' })
         } else {
           const token = jwt.sign({ userId: user._id, role: user.role }, 'tyler_is_awesome', { expiresIn: '24h' })
-          return res.json({ success: true, message: 'Auth successful', token })
+          return res.json({ success: true, message: 'Auth successful', token, user })
         }
       }
     })(req, res)
