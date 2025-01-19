@@ -1,0 +1,89 @@
+@use 'sass:map';
+@import '../../styles/abstract/mixins';
+
+.auth-container {
+  @include flex(column, center, center);
+  min-height: 100vh;
+  background-color: $gray-50;
+  padding: map-get($spacing, md);
+}
+
+.auth-card {
+  background-color: $white;
+  padding: map-get($spacing, xl);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba($gray-900, 0.1);
+  width: 100%;
+  max-width: 28rem;
+
+  @include responsive(sm) {
+    padding: map-get($spacing, xl);
+  }
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: map-get($spacing, lg);
+
+  h1 {
+    font-size: map-get($font-sizes, "2xl");
+    color: $gray-900;
+    font-weight: 600;
+    margin-bottom: map-get($spacing, xs);
+  }
+
+  p {
+    color: $gray-500;
+    font-size: map-get($font-sizes, sm);
+  }
+}
+
+form-group {
+  margin-bottom: map-get($spacing, md);
+
+  label {
+    display: block;
+    margin-bottom: map-get($spacing, xs);
+    font-size: map-get($font-sizes, sm);
+    font-weight: 500;
+    color: $gray-700;
+  }
+
+  input {
+    @include input-base;
+
+    &.error {
+      @include input-error;
+    }
+  }
+}
+
+.error-message {
+  color: $error-color;
+  font-size: map-get($font-sizes, sm);
+  margin-top: map-get($spacing, xs);
+}
+
+.auth-button {
+  @include button-base;
+  @include button-variant($primary-color);
+  width: 100%;
+  margin-top: map-get($spacing, md);
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: map-get($spacing, lg);
+  font-size: map-get($font-sizes, sm);
+  color: $gray-600;
+
+  a {
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

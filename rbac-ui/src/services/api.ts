@@ -9,7 +9,7 @@ export const api = axios.create({
   }
 })
 
-//singleton: instance that remembers the data throughout the instance being used until turned off
+//singleton: instance that remembers the data throughout the instance being used until turned off, one instance of obj is instantiated
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
