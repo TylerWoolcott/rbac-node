@@ -3,13 +3,14 @@
 export type Role = 'admin' | 'manager' | 'employee' | 'user';
 
 export interface User {
-  userName: string,
+  username: string,
   password: string,
   role: Role,
+  bearerToken: string | null,
 };
 
 export interface LoginCredentials {
-  userName: string,
+  username: string,
   password: string,
 };
 
@@ -22,4 +23,11 @@ export interface AuthState {
 export interface AuthResponse {
   bearerToken: string,
   user: User,
+}
+
+export interface AuthContextType {
+  user: AuthResponse | null,
+  login: (credentials: LoginCredentials) => Promise<AuthResponse>,
+  logout: () => void,
+  isAuthenticated: boolean,
 }

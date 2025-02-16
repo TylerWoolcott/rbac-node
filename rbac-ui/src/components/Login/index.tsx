@@ -1,34 +1,38 @@
 import React, { FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
 import './Login.scss'
 
 interface FormErrors {
-  userName?: string,
+  username?: string,
   password?: string
 }
 
 function Login() {
-  const [formData, setFormData] = useState({ userName: '', password: '' })
+  const [formData, setFormData] = useState({ username: '', password: '' })
   const [error, setError] = useState<FormErrors>({})
+  const { login } = useAuth()
 
   const validateForm = (): FormErrors => {
     const errors: FormErrors = {}
-    if (!formData.userName) {
-      errors.userName = 'Please enter a valid username'
+    if (!formData.username) {
+      errors.username = 'Please enter a valid username'
     } else if (!formData.password) {
       errors.password = 'Password is required'
     }
     return errors;
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const newErrors = validateForm()
 
     if (Object.keys(newErrors).length > 0) {
       setError(newErrors)
+
     } else {
-      console.log(formData)
+      const response = await login(formData)
+      console.log(response)
     }
 
   }
@@ -58,19 +62,19 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <div className='form-group'>
             <label htmlFor='username'>
-              Username
+              username
             </label>
             <input
               type='text'
               name='username'
-              value={formData.userName}
+              value={formData.username}
               onChange={handleChange}
               placeholder='Enter your username'
-              className={error.userName ? 'error' : ''}
+              className={error.username ? 'error' : ''}
             />
-            {error.userName && (
+            {error.username && (
               <div className='error-message'>
-                {error.userName}
+                {error.username}
               </div>
             )}
           </div>

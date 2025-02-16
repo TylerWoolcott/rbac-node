@@ -6,9 +6,14 @@ const session = require('express-session')
 const passport3 = require('passport')
 const authMiddleware2 = require('./middleware/authenticate')
 require('./config/passport-config')
+const cors = require('cors')
 
 const app = express()
 app.use(express.json())
+const corsOptions = {
+  origin: '*',
+}
+app.use(cors(corsOptions))
 //initialise session middleware
 app.use(session({
   secret: 'tyler_is_awesome',
