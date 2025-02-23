@@ -4,10 +4,10 @@ const User = require('../models/user')
 const Role = require('../models/role')
 
 const registerUser = (req, res) => {
-  const { username, password, role } = req.body;
+  const { username, password, role = 'employee' } = req.body;
   const user = new User({
     username,
-    role,
+    role
   })
   User.register(user, password, (err) => {
     if (err) {

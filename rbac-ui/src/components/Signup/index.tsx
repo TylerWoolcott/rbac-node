@@ -1,17 +1,17 @@
 import React, { FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
-import './Login.scss'
+import './Signup.scss'
 
 interface FormErrors {
   username?: string,
   password?: string
 }
 
-function Login() {
+function Signup() {
   const [formData, setFormData] = useState({ username: '', password: '' })
   const [error, setError] = useState<FormErrors>({})
-  const { login } = useAuth()
+  const { register } = useAuth()
   const navigate = useNavigate()
 
   const validateForm = (): FormErrors => {
@@ -32,9 +32,14 @@ function Login() {
       setError(newErrors)
 
     } else {
-      const response = await login(formData)
-      console.log(response)
-      navigate('/dashboard')
+      try {
+        const response = await register(formData)
+        console.log(response)
+        navigate('/login')
+      } catch (error) {
+        console.error(error)
+        alert('Something went wrong while creating the user')
+      }
     }
 
   }
@@ -57,8 +62,8 @@ function Login() {
     <div className='auth-container'>
       <div className='auth-card'>
         <div className='auth-header'>
-          <h1>Welcome back</h1>
-          <p>Please enter your details to sign in</p>
+          <h1>Sign up</h1>
+          <p>Please enter your details to create a new account</p>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -98,12 +103,12 @@ function Login() {
               </div>
             )}
           </div>
-          <button type='submit' className='auth-button'>Login</button>
+          <button type='submit' className='auth-button'>Sign up</button>
         </form>
         <div className='auth-footer'>
-          Don't have an account?
-          <Link to='/signup'>
-            Sign up
+          Already have an account?
+          <Link to='/login'>
+            Login
           </Link>
         </div>
       </div>
@@ -112,4 +117,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Signup

@@ -10,14 +10,30 @@ type AuthProviderProps = {
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<AuthResponse | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const login = useCallback(async (credentials: LoginCredentials) => {
     try {
+      setIsLoading(true)
       const data = await authService.login(credentials)
       localStorage.setItem('user', JSON.stringify(data))
       setUser(data)
+      setIsLoading(false)
       return data
     } catch (err) {
+      setIsLoading(false)
+      throw new Error("Something went wrong" + err)
+    }
+  }, [])
+
+  const register = useCallback(async (credentials: LoginCredentials) => {
+    try {
+      setIsLoading(true)
+      const data = await authService.register(credentials)
+      setIsLoading(false)
+      return data
+    } catch (err) {
+      setIsLoading(false)
       throw new Error("Something went wrong" + err)
     }
   }, [])
@@ -31,6 +47,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     user,
     login,
     logout,
+    register,
+    isLoading,
     isAuthenticated: !!user,
   }
 
