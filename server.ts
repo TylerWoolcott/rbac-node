@@ -7,6 +7,7 @@ const passport3 = require('passport')
 const authMiddleware2 = require('./middleware/authenticate')
 require('./config/passport-config')
 const cors = require('cors')
+const userRouter2 = require('./routes/user')
 
 const app = express()
 app.use(express.json())
@@ -30,6 +31,7 @@ connectToMongoDb.connectToDb()
 
 //define routes
 app.use('/auth', authRoutes)
+app.use('/users', authMiddleware2, userRouter2)
 app.use('/records', authMiddleware2, recordRoutes)
 
 const PORT = 4000
